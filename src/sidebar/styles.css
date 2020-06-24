@@ -9,8 +9,14 @@ button {
     width: 100%;
     background-color: rgb(126, 126, 236);
     cursor: pointer;
+    color: white;
+    font-weight: 500;
 }
 
 button:focus {
     outline: none;
+}
+
+.submit-button {
+    background-color: rgb(71, 161, 154);
 }

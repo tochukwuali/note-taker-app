@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import './styles.css'
+import SidebarItem from '../sidebarItem/sidebarItem'
 
 export class Sidebar extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             title: '',
             addingNote: false
@@ -23,8 +24,17 @@ export class Sidebar extends Component {
           });
      }
 
+     newNote = () => {
+       console.log(this.state)
+     }
+
     render() {
-        return (
+
+      const { notes } = this.props
+      console.log(notes)
+    
+      if (notes) {
+          return (
           <div>
             <h4> Hello from the Sidebar</h4>
             <button onClick={this.newBtnClick}> {this.state.addingNote ? 'CANCEL' : 'NEW NOTE'} </button>
@@ -37,10 +47,28 @@ export class Sidebar extends Component {
                   placeholder="Enter title"
                   onChange={this.onChange}
                 />
+                <button 
+                  onClick={this.newNote}
+                  className="submit-button"
+                >
+                  SUBMIT
+                </button>
               </div>
             ) : null}
+            <ul>
+              {
+                notes.map((note, index) => (
+                 <SidebarItem key={index} note={note} /> 
+                   )
+                )
+              }
+            </ul>
           </div>
         );
+      } else {
+        return (<div></div>)
+      }
+        
     }
 }
 

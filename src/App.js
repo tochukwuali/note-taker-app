@@ -18,7 +18,7 @@ class App extends React.Component {
   render() {
       return (
       <div className="app-container">
-        <Sidebar />
+        <Sidebar notes={this.state.notes}/>
         <Editor /> 
       </div>
     );
@@ -35,9 +35,9 @@ class App extends React.Component {
           return data
         })
         console.log(notes)
-      this.setState = {
-          notes: notes
-      }
+         this.setState({
+           notes: notes
+         })
       })
   }
 }
