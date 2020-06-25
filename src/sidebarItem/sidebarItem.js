@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
+import './styles.css'
+
+import { removeHTMLTags } from '../helpers'
 
 export class sidebarItem extends Component {
-    constructor(props){
-        super(props)
-    }
+   
     render() {
-        const {note} = this.props
+        const {note, index, selectNote} = this.props
         return (
-            <>
-              <li> {note.title} </li>
-            </>
+            <div 
+              className="sidebar-item"
+              onClick={() => selectNote(note, index)}>
+              <p> {note.title} </p>
+              <p>{ removeHTMLTags(note.body.substring(0, 30)) + '...'}</p>
+            </div>
         )
     }
+
+    // selectNote = (n, i) => this.props.selectNote(n, i)
 }
 
 export default sidebarItem
