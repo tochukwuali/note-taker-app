@@ -25,13 +25,16 @@ export class Sidebar extends Component {
   }
 
   newNote = () => {
-    console.log(this.state)
+    this.props.newNote(this.state.title)
+    this.setState({
+      title: null,
+      addingNote: false
+    })
   }
 
   render() {
 
     const { notes } = this.props
-    console.log(notes)
     
     if (notes) {
       return (
@@ -77,7 +80,11 @@ export class Sidebar extends Component {
         
     }
 
-  selectNote = () => {console.log('select note')}
+  selectNote = (n, i) => {
+    this.props.selectNote(n, i)
+  }
+  deleteNote = (note) => {
+    this.props.deleteNote(note)
+  }
 }
-
 export default Sidebar

@@ -13,16 +13,36 @@ export class Editor extends Component {
         }
     }
 
+    componentDidMount = () => {
+      this.setState({
+        title: this.props.selectedNote.title,
+        body: this.props.selectedNote.body,
+        id: this.props.selectedNote.id
+        })
+    }
+
+    componentDidUpdate = () => {
+     if(this.props.selectedNote.id !== this.state.id){
+       this.setState({
+        title: this.props.selectedNote.title,
+        body: this.props.selectedNote.body,
+        id: this.props.selectedNote.id
+        })
+     }
+    }
+
     updateBody = async (value) => {
-         await this.setState({
-           body: value
-         });
-         this.update();
+      await this.setState({
+        body: value
+     });
+      this.update();
     }
 
     update = debounce(() => {
-        //Come back later
-        console.log('UPDATING DATABASE')
+        this.props.noteUpdate(this.state.id, {
+          title: this.state.title,
+          body: this.state.body
+        });
     }, 1500)
 
     render() {

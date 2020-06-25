@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
 #root {
@@ -15,12 +17,15 @@ body {
   height: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: auto 80%
+  grid-template-columns: auto 80%;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid red;
 }
 .quill {
   height: 500px;
   box-sizing: border-box;
-  width: calc(100% - 300px);
+  width: 100%
   
 }
 .ql-container {
