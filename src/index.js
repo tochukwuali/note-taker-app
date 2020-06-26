@@ -8,7 +8,7 @@ require('firebase/firestore')
 
 // Your web app's Firebase configuration
 
-*** insert your firebase configuration here ***
+// insert your firebase configuration here 
     
 // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
