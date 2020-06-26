@@ -7,17 +7,10 @@ const firebase = require('firebase')
 require('firebase/firestore')
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyCzLNSY_34e40K3ckZglyvG1WOu45ZuZy0",
-    authDomain: "note-taker-2a5a9.firebaseapp.com",
-    databaseURL: "https://note-taker-2a5a9.firebaseio.com",
-    projectId: "note-taker-2a5a9",
-    storageBucket: "note-taker-2a5a9.appspot.com",
-    messagingSenderId: "178429655226",
-    appId: "1:178429655226:web:57035a155b4fc0609d6a83",
-    measurementId: "G-BTJ6Z9BR73" 
-  };
-  // Initialize Firebase
+
+*** insert your firebase configuration here ***
+    
+// Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
