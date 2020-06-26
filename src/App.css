@@ -25,13 +25,14 @@ body {
 .quill {
   height: 500px;
   box-sizing: border-box;
-  width: 100%
+  width: 100%;
   
 }
 .ql-container {
   box-sizing: border-box;
   height: calc(100% - 42px);
   overflow-y: scroll;
+  border: 1px solid rgb(66, 66, 138);
 }
 .ql-editor {
   cursor: text;

@@ -15,7 +15,7 @@ const firebaseConfig = {
     storageBucket: "note-taker-2a5a9.appspot.com",
     messagingSenderId: "178429655226",
     appId: "1:178429655226:web:57035a155b4fc0609d6a83",
-    measurementId: "G-BTJ6Z9BR73"
+    measurementId: "G-BTJ6Z9BR73" 
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);

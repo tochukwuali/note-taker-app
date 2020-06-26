@@ -39,7 +39,6 @@ export class Sidebar extends Component {
     if (notes) {
       return (
         <div>
-          <h4> Hello from the Sidebar</h4>
           <button onClick={this.newBtnClick}> {this.state.addingNote ? 'CANCEL' : 'NEW NOTE'} </button>
           {this.state.addingNote ? (
             <div>
@@ -63,10 +62,10 @@ export class Sidebar extends Component {
                 notes.map((note, index) => (
                   <div key={index}>
                  <SidebarItem 
-                 index={index} 
-                 note={note}
-                 selectNote={this.selectNote}
-                 deleteNote={this.deleteNote} /> <hr/>
+                  index={index} 
+                  note={note}
+                  selectNote={this.selectNote}
+                  deleteNote={this.deleteNote} /> <hr/>
                  </div>
                    )
                 )

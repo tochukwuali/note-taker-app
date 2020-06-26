@@ -28,14 +28,21 @@ export class Editor extends Component {
         body: this.props.selectedNote.body,
         id: this.props.selectedNote.id
         })
-     }
+      }
     }
 
-    updateBody = async (value) => {
+    updateBody = async(value) => {
       await this.setState({
         body: value
      });
       this.update();
+    }
+
+    updateTitle = async(text) => {
+         await this.setState({
+          title: text
+        });
+        this.update();
     }
 
     update = debounce(() => {
@@ -47,13 +54,19 @@ export class Editor extends Component {
 
     render() {
         return (
-            <div className="editorContainer">
-                <ReactQuill 
-                    value={this.state.body}
-                    onChange={this.updateBody}
-                />
+          <div className="editorContainer">
+            <div>
+              <input
+                className="title-cont"
+                type="text"
+                placeholder="Note Title..."
+                value={this.state.title ? this.state.title : " "}
+                onChange={(e) =>this.updateTitle(e.target.value)}
+              />
             </div>
-        )
+            <ReactQuill value={this.state.body} onChange={this.updateBody} />
+          </div>
+        );
     }
 }
 
