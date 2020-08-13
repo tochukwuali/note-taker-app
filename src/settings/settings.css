@@ -1,0 +1,28 @@
+.settings {
+  width: 100%;
+  background-color: rgb(126, 126, 236);
+  color: white;
+  padding: 5px;
+  outline: none;
+}
+
+.settings a {
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings .toggle-icon {
+  margin: 10px 15px;
+}
+
+.settings .setting-icon {
+  margin: 0px 0px 30px 6px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: inline;
+}

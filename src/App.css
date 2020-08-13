@@ -1,39 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-body {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
 }
 
-#root {
-  height: 100%;
-  box-sizing: border-box;
+body {
+  font-family: 'Inter', sans-serif;
+  border: 2px solid green;
 }
 
 .app-container {
-  height: 100%;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: auto 80%;
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid red;
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  padding: px; 
+  margin: auto; 
+  border: 2px solid red;
 }
+
+.container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 3% 20% auto;
+  border: 2px solid blue;
+  padding: auto;
+}
+
 .quill {
-  height: 500px;
+  height: 600px;
   box-sizing: border-box;
   width: 100%;
-  
+  font-family: 'Inter', sans-serif;
 }
 .ql-container {
   box-sizing: border-box;
   height: calc(100% - 42px);
   overflow-y: scroll;
   border: 1px solid rgb(66, 66, 138);
+  font-family: 'Inter', sans-serif;
 }
 .ql-editor {
+  margin: 20px;
   cursor: text;
+  font-family: 'Inter', sans-serif;
 }

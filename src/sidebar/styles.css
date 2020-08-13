@@ -1,15 +1,17 @@
 .sidebar {
-    
+     border-right: 0.5px solid rgb(228, 230, 230);
+     background: rgba(245, 244, 244, 0.582);
 }
 
 button {
     display: block;
     padding: 12px;
     outline: none;
-    border-radius: 3px;
+    /* border-radius: 3px; */
     font-family: 'Poppins', sans-serif;
-    border: 1px solid rgb(226, 216, 216);
-    margin: 5px 0px;
+    border: none;
+    border-right: 0.5px solid rgb(145, 147, 148);
+    /* margin: 3px 0px 5px 0px; */
     width: 100%;
     background-color: rgb(126, 126, 236);
     cursor: pointer;
@@ -19,6 +21,28 @@ button {
 
 button:focus {
     outline: none;
+}
+
+.enter-title, .search {
+  width: 100%;
+  padding: 12px 20px;
+}
+
+.search {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+input[type=search]:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: rgb(145, 147, 148);
 }
 
 .submit-button {

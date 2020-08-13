@@ -1,19 +1,35 @@
 .editorContainer {
-    height: '100%';
-    box-sizing: 'border-box'
-  }
+}
 
-  .title-cont {
-    width: 667px;
-    background-color: rgb(126, 126, 236);
-    border: none;
-    color: white;
-    font-weight: 600;
-    font-size: 20px;
-    padding: 12px;
-    outline: none;
-  }
+.title-stuff {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
 
-  ::placeholder {
-    color: white;
-  }
+.title-cont {
+  width: 100%;
+  background-color: rgb(126, 126, 236);
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 11px;
+  outline: none;
+}
+
+.editor-text-icons {
+  width: 100%;
+  background-color: rgb(126, 126, 236);
+  border: none;
+  padding: 8px;
+  outline: none;
+}
+
+.editor-text-icons a {
+  color: white;
+  margin: 8px;
+}
+
+::placeholder {
+  color: white;
+}

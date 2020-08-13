@@ -1,89 +1,93 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './styles.css'
 import SidebarItem from '../sidebarItem/sidebarItem'
 
-export class Sidebar extends Component {
-  constructor(props){
-    super(props)
-      this.state = {
+export function Sidebar(props) {
+   const initialState = {
         title: '',
         addingNote: false
         }
-    }
 
-  newBtnClick = () => {
-    this.setState({
+const [state, setState] = useState(initialState)
+
+  const newBtnClick = () => {
+    setState({
       title: '',
-      addingNote: !this.state.addingNote
+      addingNote: !state.addingNote
     })
   }
 
-  onChange = (e) => {
-    return this.setState({
-      [e.target.name]: e.target.value
+  const selectNote = (n, i) => {
+    props.selectNote(n, i);
+  };
+  const deleteNote = note => {
+    props.deleteNote(note);
+  };
+
+  const onChange = (e) => {
+    let title = e.target.value
+   setState(prevState => {
+      return {
+      ...prevState,
+      title : title
+      }
     });
   }
 
-  newNote = () => {
-    this.props.newNote(this.state.title)
-    this.setState({
-      title: null,
-      addingNote: false
+  const newNote = () => {
+    props.newNote(state.title)
+      setState({
+       title: null,
+       addingNote: false
     })
   }
-
-  render() {
-
-    const { notes } = this.props
     
-    if (notes) {
+    if (props.notes) {
       return (
-        <div>
-          <button onClick={this.newBtnClick}> {this.state.addingNote ? 'CANCEL' : 'NEW NOTE'} </button>
-          {this.state.addingNote ? (
+        <div className="sidebar">
+          <div>
             <div>
-              <input
-                type="text"
-                value={this.state.title}
-                name="title"
-                placeholder="Enter title"
-                onChange={this.onChange}
-              />
-              <button 
-                onClick={this.newNote}
-                className="submit-button"
-              >
-                  SUBMIT
-              </button>
+              <input type="search" className="search" placeholder="Search Notes"/>
             </div>
+            <div>
+              {props.notes.map((note, index) => (
+                <div key={index}>
+                  <SidebarItem
+                    index={index}
+                    note={note}
+                    selectNote={selectNote}
+                    deleteNote={deleteNote}
+                  />{" "}
+                  <hr />
+                </div>
+              ))}
+            </div>
+
+            <button onClick={newBtnClick}>
+              {" "}
+              {state.addingNote ? "Cancel" : "Add a Note"}{" "}
+            </button>
+            {state.addingNote ? (
+              <div className="input-text">
+                <input
+                  type="text"
+                  value={state.title}
+                  name="title"
+                  className="enter-title"
+                  placeholder="Add Note"
+                  onChange={onChange}
+                />
+                <button onClick={newNote} className="submit-button">
+                  Continue
+                </button>
+              </div>
             ) : null}
-            <div>
-              {
-                notes.map((note, index) => (
-                  <div key={index}>
-                 <SidebarItem 
-                  index={index} 
-                  note={note}
-                  selectNote={this.selectNote}
-                  deleteNote={this.deleteNote} /> <hr/>
-                 </div>
-                   )
-                )
-              }
-            </div>
           </div>
-        );
+        </div>
+      );
       } else {
         return (<div></div>)
       }
-        
-    }
 
-  selectNote = (n, i) => {
-    this.props.selectNote(n, i)
-  }
-  deleteNote = (note) => {
-    this.props.deleteNote(note)
-  }
 }
 export default Sidebar

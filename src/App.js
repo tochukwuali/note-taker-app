@@ -1,47 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
-import Editor from './editor/Editor'
-import Sidebar from './sidebar/Sidebar'
+import Editor from './editor/Editor';
+import Sidebar from './sidebar/Sidebar';
+import Settings from './settings/Settings';
 
 const firebase = require("firebase");
 
-class App extends React.Component {
-  constructor(){
-    super()
-    this.state = {
+function App() {
+    const initialState = {
       selectedNoteIndex: null,
       selectedNote: null,
       notes: null
     }
-  }
-
-  render() {
-      return (
-      <div className="app-container">
-        <Sidebar 
-          selectedNoteIndex={this.state.selectedNoteIndex}
-          notes={this.state.notes}
-          selectNote={this.selectNote}
-          deleteNote={this.deleteNote}
-          newNote={this.newNote}
-        /> 
-
-        {
-          this.state.selectedNote ? 
-            <Editor 
-              selectedNote={this.state.selectedNote}
-              selectedNoteIndex={this.state.selectedNoteIndex}
-              deleteNote={this.deleteNote}
-              notes={this.state.notes}
-              noteUpdate={this.noteUpdate}
-            /> : null
-        }
-        
-      </div>
-    );
-  }
   
-  componentDidMount = () => {
+    const [state, setState] = useState(initialState)
+
+  useEffect(() => {
     firebase
       .firestore()
       .collection('notes')
@@ -50,21 +24,30 @@ class App extends React.Component {
           const data = _doc.data()
           data['id'] = _doc.id
           return data
-        })
-         this.setState({
+        }) 
+        setState(prevState => {
+           return {
+           ...prevState,
            notes: notes
+           }
          })
       })
-  }
+  }, [])
+    
 
-  selectNote = (note, index) => {
-    this.setState({
-      selectedNoteIndex: index,
-      selectedNote: note
+ const selectNote = (note, index) => {
+    setState(prevState => { 
+      return {
+        ...prevState,
+        selectedNoteIndex: index,
+        selectedNote: note
+      } 
+      
     })
   }
 
-  noteUpdate = (id, noteObj) => {
+  const noteUpdate = (id, noteObj) => {
+    console.log(noteObj)
     firebase
       .firestore()
       .collection('notes')
@@ -72,11 +55,10 @@ class App extends React.Component {
       .update({
         title: noteObj.title,
         body: noteObj.body,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
       })
   }
 
-  newNote = async (title) => {
+  const newNote = async (title) => {
     const note = {
       title: title,
       body: ''
@@ -91,31 +73,41 @@ class App extends React.Component {
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
       const newID = newfromDB.id
-      await this.setState({
-        notes: [...this.state.notes, note]
-      })
-      const newNoteIndex = this.state.notes.indexOf(this.state.notes.filter(_note => _note.id === newID)[0])
-      this.setState({
-        selectedNote: this.state.notes[newNoteIndex],
+      await setState(prevState => {
+        return {
+          ...prevState, 
+        notes: [...state.notes, note]
+      }})
+      const newNoteIndex = state.notes.indexOf(state.notes.filter(_note => _note.id === newID)[0])
+      setState(prevState => {
+        return {
+        ...prevState,
+        selectedNote: state.notes[newNoteIndex],
         selectedNoteIndex: newNoteIndex,
-
+        }
       });
   }
 
-  deleteNote = async (note) => {
-    const noteIndex = this.state.notes.indexOf(note)
-     await this.setState({notes: this.state.notes.filter(_note => _note !== note) })
-     if (this.state.selectedNoteIndex === noteIndex) {
-       this.setState({
+  const deleteNote = async (note) => {
+    const noteIndex = state.notes.indexOf(note)
+     await setState(prevState => { return {...prevState, notes: state.notes.filter(_note => _note !== note) }})
+     if (state.selectedNoteIndex === noteIndex) {
+       setState(prevState => {
+         return {
+        ...prevState, 
          selectedNote: null,
          selectedNoteIndex: null
-       })
+        }
+         })
      } else {
-       this.state.notes.length > 1 ?
-       this.selectNote = (this.state.notes[this.selectedNote - 1], this.selectedNoteIndex - 1) :
-         this.setState({
+       state.notes.length > 1 ?
+       selectNote(state.notes[state.selectedNote - 1], state.selectedNoteIndex - 1) :
+         setState(prevState => {
+           return {
+            ...prevState,
             selectedNoteIndex: null,
             selectedNote: null
+           }
          })
      }
       firebase
@@ -125,6 +117,31 @@ class App extends React.Component {
         .delete()
   }
 
-} 
+  return (
+    <div className="app-container">
+      <div className="container">
+        <Settings />
+        <Sidebar
+          selectedNoteIndex={state.selectedNoteIndex}
+          notes={state.notes}
+          selectNote={selectNote}
+          deleteNote={deleteNote}
+          newNote={newNote}
+        />
+
+        {state.selectedNote ? (
+          <Editor
+            selectedNote={state.selectedNote}
+            selectedNoteIndex={state.selectedNoteIndex}
+            deleteNote={deleteNote}
+            notes={state.notes}
+            noteUpdate={noteUpdate}
+          />
+        ) : <div></div>}
+      </div>
+    </div>
+  );
+
+}
 
 export default App

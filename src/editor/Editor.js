@@ -1,73 +1,108 @@
-import React, { Component } from 'react'
-import ReactQuill from 'react-quill'
-import debounce from '../helpers'
-import './styles.css'
+import React, { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
+import debounce from "../helpers";
+import "./styles.css";
 
-export class Editor extends Component {
-    constructor(){
-        super()
-        this.state = {
-            title: '',
-            body: '',
-            id: ''
-        }
-    }
+export function Editor({
+  selectedNote,
+  selectedNoteIndex,
+  notes,
+  noteUpdate,
+  deleteNote
+}) {
+  const editorState = {
+    title: "",
+    body: "",
+    id: ""
+  };
+  const [state, setState] = useState(editorState);
 
-    componentDidMount = () => {
-      this.setState({
-        title: this.props.selectedNote.title,
-        body: this.props.selectedNote.body,
-        id: this.props.selectedNote.id
-        })
-    }
+  useEffect(() => {
+    setState(prevState => {
+      return {
+        ...prevState,
+        title: selectedNote.title,
+        body: selectedNote.body,
+        id: selectedNote.id
+      };
+    });
+  }, [selectedNote]);
 
-    componentDidUpdate = () => {
-     if(this.props.selectedNote.id !== this.state.id){
-       this.setState({
-        title: this.props.selectedNote.title,
-        body: this.props.selectedNote.body,
-        id: this.props.selectedNote.id
-        })
-      }
-    }
+  // useEffect(() => {
+  //  if(props.selectedNote.id !== state.id){
+  //    setState(prevState => {
+  //     return {
+  //     ...prevState,
+  //     title: props.selectedNote.title,
+  //     body: props.selectedNote.body,
+  //     id: props.selectedNote.id
+  //      }
+  //     })
+  //   }
+  // })
 
-    updateBody = async(value) => {
-      await this.setState({
+  const updateBody = async value => {
+    await setState(prevState => {
+      return {
+        ...prevState,
         body: value
-     });
-      this.update();
+      };
+    });
+    if (state.body !== "") {
+      noteUpdate(state.id, {
+        title: state.title,
+        body: state.body
+      });
     }
+  };
 
-    updateTitle = async(text) => {
-         await this.setState({
-          title: text
-        });
-        this.update();
-    }
+  const updateTitle = async e => {
+    let title = e.target.value;
+    await setState(prevState => {
+      return {
+        ...prevState,
+        title: title
+      };
+    });
+    console.log(state);
+    noteUpdate(state.id, {
+      title: state.title,
+      body: state.body
+    });
+  };
 
-    update = debounce(() => {
-        this.props.noteUpdate(this.state.id, {
-          title: this.state.title,
-          body: this.state.body
-        });
-    }, 1500)
+  const update = debounce(() => {
+    noteUpdate(state.id, {
+      title: state.title,
+      body: state.body
+    });
+  }, 1500);
 
-    render() {
-        return (
-          <div className="editorContainer">
-            <div>
-              <input
-                className="title-cont"
-                type="text"
-                placeholder="Note Title..."
-                value={this.state.title ? this.state.title : " "}
-                onChange={(e) =>this.updateTitle(e.target.value)}
-              />
-            </div>
-            <ReactQuill value={this.state.body} onChange={this.updateBody} />
-          </div>
-        );
-    }
+  return (
+    <div className="editorContainer">
+      <div className="title-stuff">
+        <div className="editor-title">
+          <input
+            className="title-cont"
+            type="text"
+            placeholder="Note Title..."
+            value={state.title ? state.title : " "}
+            onChange={updateTitle}
+          />
+        </div>
+        <div className="editor-text-icons">
+          <a href="https://twitter.com/tochukwuali3" className="share-icon">
+            <i className="fa fa-share-alt"></i>
+          </a>
+          <a href="https://twitter.com/tochukwuali3" className="delete-icon">
+            <i className="fa fa-trash-o"></i>
+          </a>
+        </div>
+      </div>
+
+      <ReactQuill value={state.body} onChange={updateBody} />
+    </div>
+  );
 }
 
-export default Editor
+export default Editor;
